@@ -1,0 +1,45 @@
+<div style="max-width: 800px; margin: auto;">
+    <h2 style="text-align: center;">Transaction List</h2>
+    
+    <div style="text-align: right; margin-bottom: 20px;">
+      <button routerLink="/transaction-add"
+        style="background: #007bff; color: white; padding: 10px;">
+        + Add Transaction
+      </button>
+    </div>
+    
+    <div style="text-align: right; margin-bottom: 20px;">
+      <button routerLink="/account-list"
+        style="background: #007bff; color: white; padding: 10px;">
+        Back to Accounts
+      </button>
+    </div>
+  
+    <table border="1" style="width: 100%; text-align: left; border-collapse: collapse;">
+      <thead>
+        <tr style="background: #f4f4f4;">
+          <th>Account No</th>
+          <!-- <th>Customer</th> -->
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions; let i = index">
+          <td>{{ transaction.accountNumber }}</td>
+          <!-- <td>{{ transaction.customerName }}</td> -->
+          <td>{{ transaction.transactionType }}</td>
+          <td>${{ transaction.amount }}</td>
+          <td>{{ transaction.date }}</td>
+          <td>{{ transaction.status }}</td>
+          <td>
+            <button (click)="deleteTransaction(i)" style="color: red;">🗑️ Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

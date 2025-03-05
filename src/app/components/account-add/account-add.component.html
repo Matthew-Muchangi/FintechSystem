@@ -1,0 +1,74 @@
+<div 
+  style="
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  "
+>
+  <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Create New Financial Account</h2>
+
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+    
+    <!-- Select Customer -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Customer:</label>
+      <select formControlName="customerName"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <option *ngFor="let customer of customers" [value]="customer.fullName">
+          {{ customer.fullName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Account Type -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Account Type:</label>
+      <select formControlName="accountType"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <option value="Savings">Savings</option>
+        <option value="Checking">Checking</option>
+        <option value="Business">Business</option>
+      </select>
+    </div>
+
+    <!-- Initial Balance -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Initial Balance:</label>
+      <input type="number" formControlName="balance"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+    </div>
+
+    <!-- Account Status -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Account Status:</label>
+      <select formControlName="status"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <option value="Active">Active</option>
+        <option value="Suspended">Suspended</option>
+        <option value="Closed">Closed</option>
+      </select>
+    </div>
+
+    <!-- Buttons -->
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <button type="submit" [disabled]="accountForm.invalid" 
+        style="background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+        Create Account
+      </button>
+
+      <button type="button" routerLink="/customer-list" 
+        style="background: black; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+        Back
+      </button>
+
+      <button type="button" routerLink="/account-list" 
+        style="background: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>

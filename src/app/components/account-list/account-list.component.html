@@ -1,0 +1,87 @@
+<div style="max-width: 800px; margin: auto; padding: 20px;">
+    <h2 style="text-align: center; color: #333;">Financial Account List</h2>
+
+    <!-- Add Account Button -->
+    <div style="text-align: right; margin-bottom: 20px;">
+        <button routerLink="/account-add"
+            style="background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+            + Add Financial Account
+        </button>
+    </div>
+
+    <div style="text-align: right; margin-bottom: 20px;">
+        <button routerLink="/customer-list"
+            style="background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+            Back to Customer List
+        </button>
+    </div>
+    <div style="text-align: right; margin-bottom: 20px;">
+        <button routerLink="/transaction-add"
+            style="background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+            Add Transaction 
+        </button>
+    </div>
+
+    <!-- Show message if no accounts exist -->
+    <div *ngIf="accounts.length === 0"
+        style="text-align: center; background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px;">
+        No accounts found.
+    </div>
+
+    <!-- Account Cards -->
+    <div *ngFor="let account of accounts; let i = index"
+        style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); margin-bottom: 10px;">
+
+        <!-- Display Mode -->
+        <div *ngIf="editIndex !== i">
+            <h4 style="margin: 5px 0; color: #333;">Account No: #{{ account.accountNumber }}</h4>
+            <p><strong>Customer Name:</strong> {{ account.customerName }}</p>
+            <p><strong>Account Type:</strong> {{ account.accountType }}</p>
+            <p><strong>Balance:</strong> ${{ account.balance }}</p>
+            <p><strong>Status:</strong> {{ account.status }}</p>
+        </div>
+
+        <!-- Edit Mode -->
+        <div *ngIf="editIndex === i">
+            <h4 style="margin: 5px 0; color: #333;">Account No: #{{ account.accountNumber }}</h4>
+            <form [formGroup]="accountForm">
+                <label>Account Type:</label>
+                <select formControlName="accountType" style="width: 100%; padding: 5px; margin-bottom: 10px;">
+                    <option value="Savings">Savings</option>
+                    <option value="Checking">Checking</option>
+                    <option value="Business">Business</option>
+                </select>
+
+                <label>Status:</label>
+                <select formControlName="status" style="width: 100%; padding: 5px;">
+                    <option value="Active">Active</option>
+                    <option value="Suspended">Suspended</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </form>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="margin-top: 10px;">
+            <button (click)="startEditing(i)" *ngIf="editIndex !== i"
+                style="background: #ffc107; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+                Edit
+            </button>
+
+            <button (click)="saveEdit()" *ngIf="editIndex === i"
+                style="background: #28a745; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer;">
+                ✔️ Save
+            </button>
+
+            <button (click)="cancelEdit()" *ngIf="editIndex === i"
+                style="background: #dc3545; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer;">
+                ❌ Cancel
+            </button>
+
+            <button (click)="deleteAccount(i)"
+                style="background: transparent; border: none; cursor: pointer; margin-left: 10px;">
+                <span style="font-size: 15px; color: red;">🗑️ Delete</span>
+            </button>
+        </div>
+    </div>
+</div>

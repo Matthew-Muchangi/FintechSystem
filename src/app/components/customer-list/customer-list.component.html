@@ -1,0 +1,155 @@
+<div 
+  style="
+    max-width: 800px; 
+    margin: auto; 
+    padding: 20px;
+  "
+>
+  <h2 style="text-align: center; color: #333;">Customer List</h2>
+
+  <!-- Add Customer Button -->
+  <div style="text-align: right; margin-bottom: 20px;">
+    <button 
+      routerLink="/customer-add"
+      style="
+        background: #007bff; 
+        color: white; 
+        padding: 10px 15px; 
+        border: none; 
+        border-radius: 5px; 
+        cursor: pointer;
+      "
+    >
+      + Add Customer
+    </button>
+  </div>
+
+  <div style="text-align: right; margin-bottom: 20px;">
+    <button 
+      routerLink="/account-add"
+      style="
+        background: #007bff; 
+        color: white; 
+        padding: 10px 15px; 
+        border: none; 
+        border-radius: 5px; 
+        cursor: pointer;
+      "
+    >
+      + Add Financial Account
+    </button>
+  </div>
+
+  
+  <div style="text-align: right; margin-bottom: 20px;">
+    <button 
+      routerLink="/transaction-add"
+      style="
+        background: #007bff; 
+        color: white; 
+        padding: 10px 15px; 
+        border: none; 
+        border-radius: 5px; 
+        cursor: pointer;
+      "
+    >
+      + Add Transaction Account
+    </button>
+  </div>
+
+  <!-- Show message if no customers exist -->
+  <div *ngIf="customers.length === 0" 
+    style="
+      text-align: center; 
+      background: #f8d7da; 
+      color: #721c24; 
+      padding: 15px; 
+      border-radius: 5px;
+    "
+  >
+    No customers added yet.
+  </div>
+
+  <!-- Customer Cards -->
+  <div *ngFor="let customer of customers; let i = index"
+    style="
+      display: flex; 
+      align-items: center; 
+      background: white; 
+      padding: 15px; 
+      border-radius: 10px; 
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+      margin-bottom: 10px;
+    "
+  >
+    <!-- Profile Picture -->
+    <!-- Image Upload (only in Edit Mode) -->
+<div *ngIf="editIndex === i">
+  <input type="file" (change)="onFileSelected($event, i)" accept="image/*" />
+</div>
+
+<!-- Display Profile Picture -->
+<div style="margin-right: 15px;">
+  <img 
+    [src]="customer.profilePicture || 'assets/images/no-image.png'" 
+    alt="Profile" 
+    style="
+      width: 60px; 
+      height: 60px; 
+      border-radius: 50%; 
+      object-fit: cover; 
+      border: 2px solid #ddd;
+    "
+  />
+</div>
+
+
+    <!-- Customer Details (Display Mode) -->
+    <div style="flex-grow: 1;" *ngIf="editIndex !== i">
+      <h4 style="margin: 5px 0; color: #333;">{{ customer.fullName }}</h4>
+      <p style="margin: 3px 0; color: #666;"><strong>Email:</strong> {{ customer.email }}</p>
+      <p style="margin: 3px 0; color: #666;"><strong>Phone:</strong> {{ customer.phoneNumber }}</p>
+      <p style="margin: 3px 0; color: #666;"><strong>Type:</strong> {{ customer.customerType }}</p>
+      <p style="margin: 3px 0; color: #666;"><strong>Registered:</strong> {{ customer.dateOfRegistration }}</p>
+    </div>
+
+    <!-- Customer Edit Form (Edit Mode) -->
+    <div style="flex-grow: 1;" *ngIf="editIndex === i">
+      <form [formGroup]="editForm">
+        <input type="text" formControlName="fullName" placeholder="Full Name" />
+        <input type="email" formControlName="email" placeholder="Email" />
+        <input type="text" formControlName="phoneNumber" placeholder="Phone Number" />
+        <select formControlName="customerType">
+          <option value="Individual">Individual</option>
+          <option value="Business">Business</option>
+        </select>
+        <input type="date" formControlName="dateOfRegistration" />
+      </form>
+    </div>
+
+    <!-- Action Buttons -->
+    <div>
+      <!-- Edit Button -->
+      <button 
+        *ngIf="editIndex !== i" 
+        (click)="startEditing(i)" 
+        style="background: #ffc107; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+        Edit
+      </button>
+
+      <button *ngIf="editIndex === i" (click)="saveEdit()"
+        style="background: #28a745; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">
+        ✔️ Save
+      </button>
+
+      <button *ngIf="editIndex === i" (click)="cancelEdit()"
+        style="background: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">
+        ❌ Cancel
+      </button>
+
+      <button (click)="deleteCustomer(i)" style="background: transparent; border: none; cursor: pointer;">
+        <span style="font-size: 15px; color: red;">🗑️ Delete</span>
+      </button>
+    </div>
+  </div>
+</div>

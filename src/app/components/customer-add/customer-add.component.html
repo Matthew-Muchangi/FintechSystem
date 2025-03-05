@@ -1,0 +1,102 @@
+
+<div 
+  style="
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  "
+>
+  <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Add New Customer</h2>
+
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+    
+    <!-- Full Name -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Full Name:</label>
+      <input type="text" formControlName="fullName" 
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+      <div *ngIf="customerForm.controls['fullName'].invalid && customerForm.controls['fullName'].touched" 
+        style="color: red; font-size: 12px; margin-top: 5px;">
+        Full Name is required.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Email:</label>
+      <input type="email" formControlName="email"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+      <div *ngIf="customerForm.controls['email'].invalid && customerForm.controls['email'].touched" 
+        style="color: red; font-size: 12px; margin-top: 5px;">
+        Enter a valid email address.
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Phone Number:</label>
+      <input type="text" formControlName="phoneNumber"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+      <div *ngIf="customerForm.controls['phoneNumber'].invalid && customerForm.controls['phoneNumber'].touched" 
+        style="color: red; font-size: 12px; margin-top: 5px;">
+        Enter a valid phone number.
+      </div>
+    </div>
+
+    <!-- Date of Registration -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Date of Registration:</label>
+      <input type="date" formControlName="dateOfRegistration"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+      <div *ngIf="customerForm.controls['dateOfRegistration'].invalid && customerForm.controls['dateOfRegistration'].touched" 
+        style="color: red; font-size: 12px; margin-top: 5px;">
+        Date of Registration is required.
+      </div>
+    </div>
+
+    <!-- Customer Type -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Customer Type:</label>
+      <select formControlName="customerType"
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <option value="">Select Type</option>
+        <option value="Individual">Individual</option>
+        <option value="Business">Business</option>
+      </select>
+      <div *ngIf="customerForm.controls['customerType'].invalid && customerForm.controls['customerType'].touched" 
+        style="color: red; font-size: 12px; margin-top: 5px;">
+        Customer Type is required.
+      </div>
+    </div>
+
+    <!-- Profile Picture Upload -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 500;">Profile Picture:</label>
+      <input type="file" (change)="handleImageUpload($event)" accept="image/*"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;" />
+      
+      <!-- Image Preview -->
+      <div *ngIf="profilePicture" style="text-align: center; margin-top: 10px;">
+        <img [src]="profilePicture" alt="Profile Picture" 
+          style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;" />
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <button type="submit" [disabled]="customerForm.invalid" 
+        style="background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+        Add Customer
+      </button>
+
+      <button type="button" routerLink="/customer-list" 
+        style="background: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>

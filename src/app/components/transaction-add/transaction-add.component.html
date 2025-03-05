@@ -1,0 +1,44 @@
+<div style="max-width: 500px; margin: auto; padding: 20px;">
+    <h2 style="text-align: center;">Add New Transaction</h2>
+    
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+      
+      <label>Account:</label>
+      <select formControlName="accountNumber" (change)="onAccountChange()">
+        <option *ngFor="let account of accounts" [value]="account.accountNumber">
+          {{ account.accountNumber }} - {{ account.customerName }}
+        </option>
+      </select>
+  
+      <label>Customer Name:</label>
+      <input type="text" [value]="transactionForm.get('customerName')?.value" disabled />
+  
+      <label>Transaction Type:</label>
+      <select formControlName="transactionType">
+        <option value="Deposit">Deposit</option>
+        <option value="Withdrawal">Withdrawal</option>
+        <option value="Transfer">Transfer</option>
+        <option value="Loan Payment">Loan Payment</option>
+      </select>
+  
+      <label>Amount:</label>
+      <input type="number" formControlName="amount" />
+  
+      <label>Date:</label>
+      <input type="date" formControlName="date" />
+  
+      <label>Status:</label>
+      <select formControlName="status">
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+  
+      <button type="submit" [disabled]="transactionForm.invalid" 
+        style="margin-top: 20px; background: #007bff; color: white; padding: 10px;">
+        Add Transaction
+      </button>
+  
+    </form>
+  </div>
+  
