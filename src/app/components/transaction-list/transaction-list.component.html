@@ -14,32 +14,65 @@
         Back to Accounts
       </button>
     </div> -->
+    <table style="
+    width: 100%; 
+    text-align: left; 
+    border-collapse: collapse; 
+    font-family: Arial, sans-serif;
+    border: 1px solid #ddd;
+    background: #fff;
+  ">
+    <thead>
+      <tr style="
+        background: #007bff; 
+        color: white; 
+        text-transform: uppercase;
+        font-weight: bold;
+      ">
+        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Account No</th>
+        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Type</th>
+        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Amount</th>
+        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Date</th>
+        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Status</th>
+        <th style="padding: 12px; border-bottom: 2px solid #ddd;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions; let i = index" 
+          style="border-bottom: 1px solid #ddd; transition: background 0.3s ease;"
+          (mouseover)="this.style.background='#f1f1f1'" 
+          (mouseout)="this.style.background='transparent'">
+        <td style="padding: 12px;">{{ transaction.accountNumber}}</td>
+        <td style="padding: 12px;">{{ transaction.transactionType }}</td>
+        <td style="padding: 12px; color: green; font-weight: bold;">${{ transaction.amount }}</td>
+        <td style="padding: 12px;">{{ transaction.date }}</td>
+        <td style="padding: 12px;">
+          <span [ngStyle]="{
+            'color': transaction.status === 'Approved' ? 'green' : (transaction.status === 'Pending' ? 'orange' : 'red'),
+            'font-weight': 'bold'
+          }">
+            {{ transaction.status }}
+          </span>
+        </td>
+        <td style="padding: 12px;">
+          <button (click)="deleteTransaction(i)" style="
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+          " 
+          (mouseover)="this.style.background='#c82333'" 
+          (mouseout)="this.style.background='#dc3545'">
+            🗑️ Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   
-    <table style="width: 100%; text-align: left; border-collapse: collapse;">
-      <thead>
-        <tr style="background: #f4f4f4;">
-          <th>Account No</th>
-          <!-- <th>Customer</th> -->
-          <th>Type</th>
-          <th>Amount</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let transaction of transactions; let i = index">
-          <td>{{ transaction.accountNumber }}</td>
-          <!-- <td>{{ transaction.customerName }}</td> -->
-          <td>{{ transaction.transactionType }}</td>
-          <td>${{ transaction.amount }}</td>
-          <td>{{ transaction.date }}</td>
-          <td>{{ transaction.status }}</td>
-          <td>
-            <button (click)="deleteTransaction(i)" style="color: red;">🗑️ Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  
   </div>
   

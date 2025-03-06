@@ -8,6 +8,7 @@ import { Transaction } from 'src/app/models/transaction.model';
 })
 export class TransactionListComponent {
   transactions: Transaction[] = [];
+style: any;
 
   constructor(private transactionService: TransactionService) {
     this.transactionService.getTransactions().subscribe(data => {
