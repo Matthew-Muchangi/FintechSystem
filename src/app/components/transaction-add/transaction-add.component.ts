@@ -48,6 +48,20 @@ export class TransactionAddComponent {
     }
   }
 
+  onAccountChanges(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    if (target) {
+      const accountNumber = target.value;
+      const selectedAccount = this.accounts.find(acc => acc.accountNumber === accountNumber);
+      if (selectedAccount) {
+        this.transactionForm.patchValue({ customerName: selectedAccount.customerName });
+      }
+    }
+  }
+  
+
+
+
   onSubmit() {
     if (this.transactionForm.valid) {
       this.transactionService.addTransaction(this.transactionForm.value);

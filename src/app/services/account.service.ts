@@ -61,4 +61,23 @@ export class AccountService {
     this.accounts.next(updatedAccounts);
     this.saveAccounts(updatedAccounts);
   }
+
+  updateAccountBalance(accountNumber: string, transactionType: string, amount: number) {
+    const accounts = this.accounts.getValue();
+    const accountIndex = accounts.findIndex(acc => acc.accountNumber === accountNumber);
+
+    if (accountIndex !== -1) {
+      const updatedAccount = { ...accounts[accountIndex] };
+
+      if (transactionType === 'Deposit') {
+        updatedAccount.balance += amount;
+      } else if (transactionType === 'Withdrawal' || transactionType === 'Loan Payment') {
+        updatedAccount.balance -= amount;
+      }
+
+      accounts[accountIndex] = updatedAccount;
+      this.accounts.next(accounts);
+      this.saveAccounts(accounts);
+    }
+  }
 }

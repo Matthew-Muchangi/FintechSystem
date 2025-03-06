@@ -1,44 +1,73 @@
-<div style="max-width: 500px; margin: auto; padding: 20px;">
-    <h2 style="text-align: center;">Add New Transaction</h2>
+<div style="max-width: 500px; margin: auto; padding: 25px; background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <h2 style="text-align: center; color: #333; margin-bottom: 20px;">🔹 Add Transaction</h2>
+
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
     
-    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
-      
-      <label>Account:</label>
-      <select formControlName="accountNumber" (change)="onAccountChange()">
-        <option *ngFor="let account of accounts" [value]="account.accountNumber">
-          {{ account.accountNumber }} - {{ account.customerName }}
+    <!-- Account Selection -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 600;">Account:</label>
+      <select formControlName="accountNumber" class="form-control" (change)="onAccountChanges($event)" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="" disabled selected>Select an account</option>
+        <option *ngFor="let acc of accounts" [value]="acc.accountNumber">
+            {{ acc.accountNumber }} - {{ acc.customerName }}
         </option>
       </select>
-  
-      <label>Customer Name:</label>
-      <input type="text" [value]="transactionForm.get('customerName')?.value" disabled />
-  
-      <label>Transaction Type:</label>
-      <select formControlName="transactionType">
-        <option value="Deposit">Deposit</option>
-        <option value="Withdrawal">Withdrawal</option>
-        <option value="Transfer">Transfer</option>
-        <option value="Loan Payment">Loan Payment</option>
+    </div>
+
+    <!-- Customer Name -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 600;">Customer Name:</label>
+      <input type="text" [value]="transactionForm.get('customerName')?.value" class="form-control" disabled 
+      style="width: 100%; padding: 8px; border-radius: 5px; background: #f3f3f3; border: 1px solid #ccc;" />
+    </div>
+
+    <!-- Transaction Type -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 600;">Transaction Type:</label>
+      <select formControlName="transactionType" class="form-control" 
+      style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+          <option value="Deposit">Deposit</option>
+          <option value="Withdrawal">Withdrawal</option>
+          <option value="Transfer">Transfer</option>
+          <option value="Loan Payment">Loan Payment</option>
       </select>
-  
-      <label>Amount:</label>
-      <input type="number" formControlName="amount" />
-  
-      <label>Date:</label>
-      <input type="date" formControlName="date" />
-  
-      <label>Status:</label>
-      <select formControlName="status">
-        <option value="Pending">Pending</option>
-        <option value="Approved">Approved</option>
-        <option value="Rejected">Rejected</option>
+    </div>
+
+    <!-- Amount -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 600;">Amount:</label>
+      <input type="number" formControlName="amount" class="form-control" 
+      style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Enter amount" />
+    </div>
+
+    <!-- Date -->
+    <div style="margin-bottom: 15px;">
+      <label style="font-weight: 600;">Date:</label>
+      <input type="date" formControlName="date" class="form-control" 
+      style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" />
+    </div>
+
+    <!-- Status -->
+    <div style="margin-bottom: 20px;">
+      <label style="font-weight: 600;">Status:</label>
+      <select formControlName="status" class="form-control" 
+      style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
       </select>
-  
-      <button type="submit" [disabled]="transactionForm.invalid" 
-        style="margin-top: 20px; background: #007bff; color: white; padding: 10px;">
-        Add Transaction
+    </div>
+
+    <!-- Buttons -->
+    <div style="display: flex; justify-content: space-between;">
+      <button type="submit" class="btn btn-primary" 
+      style="flex: 1; background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px;">
+          💾 Add Transaction
       </button>
-  
-    </form>
-  </div>
-  
+      
+     
+    </div>
+
+  </form>
+</div>
+
