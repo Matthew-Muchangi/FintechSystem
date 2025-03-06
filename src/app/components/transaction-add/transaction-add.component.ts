@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AccountService } from 'src/app/services/account.service';
-import { Transaction } from 'src/app/transaction.model';
-import { Account } from 'src/app/account.model';
+import { Transaction } from 'src/app/models/transaction.model';
+import { Account } from 'src/app/models/account.model';
 import { Router } from '@angular/router';
 
 @Component({

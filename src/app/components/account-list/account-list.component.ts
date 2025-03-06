@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AccountService } from 'src/app/services/account.service';
-import { Account } from 'src/app/account.model';
+import { Account } from 'src/app/models/account.model';
 
 @Component({
   selector: 'app-account-list',

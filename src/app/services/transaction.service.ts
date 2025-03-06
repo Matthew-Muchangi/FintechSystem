@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Transaction } from '../transaction.model';
+import { Transaction } from '../models/transaction.model';
 import { AccountService } from './account.service';
-import { Account } from '../account.model';
+import { Account } from '../models/account.model';
 
 @Injectable({
   providedIn: 'root'

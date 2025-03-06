@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/services/account.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { Router } from '@angular/router';
-import { Account } from 'src/app/account.model';
-import { Customer } from 'src/app/customer.model';
+import { Account } from 'src/app/models/account.model';
+import { Customer } from 'src/app/models/customer.model';
 
 @Component({
   selector: 'app-account-add',
