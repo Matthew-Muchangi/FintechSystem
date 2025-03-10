@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Transaction } from '../models/transaction.model';
 import { AccountService } from './account.service';
-import { Account } from '../models/account.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,15 +47,35 @@ export class TransactionService {
   // Update account balance based on transaction type
   private updateAccountBalance(transaction: Transaction) {
     const accounts = this.accountService.loadAccounts();
-    const account = accounts.find(acc => acc.accountNumber === transaction.accountNumber);
-
-    if (account) {
+  
+    // Find the source account (sender)
+    const sourceAccount = accounts.find(acc => acc.accountNumber === transaction.accountNumber);
+  
+    if (sourceAccount) {
       if (transaction.transactionType === 'Deposit') {
-        account.balance += transaction.amount;
+        sourceAccount.balance += transaction.amount;
       } else if (transaction.transactionType === 'Withdrawal' || transaction.transactionType === 'Loan Payment') {
-        account.balance -= transaction.amount;
+        sourceAccount.balance -= transaction.amount;
+      } else if (transaction.transactionType === 'Transfer') {
+        // Find the destination account (receiver)
+        const destinationAccount = accounts.find(acc => acc.accountNumber === transaction.accountNumber);
+  
+        if (destinationAccount && sourceAccount.balance >= transaction.amount) {
+          // Deduct from source (sender)
+          sourceAccount.balance -= transaction.amount;
+          // Add to destination (receiver)
+          destinationAccount.balance += transaction.amount;
+          // Update both accounts
+          this.accountService.updateAccount(sourceAccount);
+          this.accountService.updateAccount(destinationAccount);
+        } else {
+          console.error('Transfer failed: Insufficient balance or invalid destination account');
+        }
       }
-      this.accountService.updateAccount(account);
+  
+      // Update the account after transaction
+      this.accountService.updateAccount(sourceAccount);
     }
   }
+  
 }

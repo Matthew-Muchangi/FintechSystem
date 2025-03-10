@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AccountService } from 'src/app/services/account.service';
-import { Transaction } from 'src/app/models/transaction.model';
-import { Account } from 'src/app/models/account.model';
 import { Router } from '@angular/router';
+import { Account } from 'src/app/models/account.model';
 
 @Component({
   selector: 'app-transaction-add',
@@ -12,60 +11,65 @@ import { Router } from '@angular/router';
 })
 export class TransactionAddComponent {
   transactionForm: FormGroup;
-  accounts: Account[] = []; // Explicitly define the type as Account[]
- 
+  accounts: Account[] = [];
+  isTransfer = false; // Track if Transfer is selected
 
   constructor(
     private fb: FormBuilder,
     private transactionService: TransactionService,
     private accountService: AccountService,
-    private router: Router  // Inject Router
+    private router: Router
   ) {
     this.transactionForm = this.fb.group({
       accountNumber: ['', Validators.required],
-      customerName: [{ value: '', disabled: true }], // Auto-filled based on account selection
+      toAccountNumber: [''], // Destination account for transfer
+      customerName: [{ value: '', disabled: true }],
       transactionType: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(1)]],
       date: ['', Validators.required],
       status: ['', Validators.required],
     });
 
-    this.loadAccounts(); // Load accounts
+    this.loadAccounts();
+    this.onTransactionTypeChange(); // Listen for type changes
   }
 
-  // Load accounts and assign them correctly
   private loadAccounts() {
-    this.accounts = this.accountService.loadAccounts(); // Now TypeScript knows accounts is Account[]
+    this.accounts = this.accountService.loadAccounts();
   }
 
-  // When an account is selected, auto-fill the customer name
+  // Auto-fill customer name when selecting an account
   onAccountChange() {
     const selectedAccountNumber = this.transactionForm.value.accountNumber;
     const selectedAccount = this.accounts.find(acc => acc.accountNumber === selectedAccountNumber);
-
     if (selectedAccount) {
       this.transactionForm.patchValue({ customerName: selectedAccount.customerName });
     }
   }
 
-  onAccountChanges(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    if (target) {
-      const accountNumber = target.value;
-      const selectedAccount = this.accounts.find(acc => acc.accountNumber === accountNumber);
-      if (selectedAccount) {
-        this.transactionForm.patchValue({ customerName: selectedAccount.customerName });
+  // Detect changes in transaction type
+  onTransactionTypeChange() {
+    this.transactionForm.get('transactionType')?.valueChanges.subscribe(value => {
+      this.isTransfer = value === 'Transfer';
+      if (!this.isTransfer) {
+        this.transactionForm.patchValue({ toAccountNumber: '' }); // Reset destination account
       }
-    }
+    });
   }
-  
-
-
 
   onSubmit() {
     if (this.transactionForm.valid) {
-      this.transactionService.addTransaction(this.transactionForm.value);
-      this.router.navigate(['/transaction-list']); // Redirect after adding
+      const transactionData = this.transactionForm.value;
+
+      // Ensure valid transfer (source and destination must be different)
+      if (transactionData.transactionType === 'Transfer' &&
+          transactionData.accountNumber === transactionData.toAccountNumber) {
+        alert('Source and destination accounts must be different.');
+        return;
+      }
+
+      this.transactionService.addTransaction(transactionData);
+      this.router.navigate(['/transaction-list']); 
     }
   }
 }

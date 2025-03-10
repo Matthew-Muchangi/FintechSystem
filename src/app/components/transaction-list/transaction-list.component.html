@@ -2,8 +2,17 @@
     <h2 style="text-align: center;">Transaction List</h2>
     
     <div style="text-align: right; margin-bottom: 20px;">
-      <button routerLink="/transaction-add"
-        style="background: #007bff; color: white; padding: 10px;">
+      <button 
+        routerLink="/transaction-add"
+        style="
+          background: #007bff; 
+          color: white; 
+          padding: 10px 15px; 
+          border: none; 
+          border-radius: 5px; 
+          cursor: pointer;
+        "
+      >
         + Add Transaction
       </button>
     </div>
@@ -30,6 +39,7 @@
         font-weight: bold;
       ">
         <th style="padding: 12px; border-bottom: 2px solid #ddd;">Account No</th>
+        <!-- <th style="padding: 12px; border-bottom: 2px solid #ddd;">Customer</th> -->
         <th style="padding: 12px; border-bottom: 2px solid #ddd;">Type</th>
         <th style="padding: 12px; border-bottom: 2px solid #ddd;">Amount</th>
         <th style="padding: 12px; border-bottom: 2px solid #ddd;">Date</th>
@@ -43,6 +53,8 @@
           (mouseover)="this.style.background='#f1f1f1'" 
           (mouseout)="this.style.background='transparent'">
         <td style="padding: 12px;">{{ transaction.accountNumber}}</td>
+        <!-- <td style="padding: 12px;">{{ transaction.customerName}}</td> -->
+
         <td style="padding: 12px;">{{ transaction.transactionType }}</td>
         <td style="padding: 12px; color: green; font-weight: bold;">${{ transaction.amount }}</td>
         <td style="padding: 12px;">{{ transaction.date }}</td>
